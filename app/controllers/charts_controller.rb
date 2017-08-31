@@ -5,16 +5,16 @@ class ChartsController < ApplicationController
   end
 
   def show
-
+    @songs = Song.where(chart_id: @chart.id)
   end
 
   def new
     @chart = Chart.new
-    #render partial: 'form'
+    render partial: 'form'
   end
 
   def edit
-    #render partial: 'form'
+    render partial: 'form'
   end
 
   def create
@@ -23,7 +23,7 @@ class ChartsController < ApplicationController
     if @chart.save
       redirect_to chart_path(@chart)
     else
-      #render partial: "form"
+      render partial: "form"
     end
   end
 
@@ -31,7 +31,7 @@ class ChartsController < ApplicationController
     if @chart.update(chart_params)
       redirect_to chart_path(@chart)
     else
-      #render partial: "form"
+      render partial: "form"
     end
   end
 
@@ -44,6 +44,11 @@ private
 
   def set_chart
     @chart = Chart.find(params[:id])
+    @song = Song.all
   end
+
+  def chart_params
+      params.require(:chart).permit(:name)
+    end
 
 end
